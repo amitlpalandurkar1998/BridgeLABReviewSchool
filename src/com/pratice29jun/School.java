@@ -1,94 +1,140 @@
 package com.pratice29jun;
 
 import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 //Write a Java program to create a class called "School" with
 // attributes for students, teachers, and classes, and methods
 // to add and remove students and teachers, and to create classe
-class SchoolRecord{
+
+class SchoolRecordCLASS{
     private String CLASS_NAME;
-    private String STUDENT_NAME;
-    private String TEACHER_NAME;
-
-    public SchoolRecord(String className,String studentName,String teacherName) {
+    public SchoolRecordCLASS(String className) {
         this.CLASS_NAME = className;
-        this.STUDENT_NAME = studentName;
-        this.TEACHER_NAME = teacherName;
     }
-
     public String getCLASS_NAME() {
         return CLASS_NAME;
     }
-
-    public void setCLASS_NAME(String className) {
-        this.CLASS_NAME = className;
+    public void setCLASS_NAME(String CLASS_NAME) {
+        this.CLASS_NAME = CLASS_NAME;
     }
-
+    @Override
+    public String toString() {
+        return "Class Name : "+CLASS_NAME+"\n";
+    }
+}
+class SchoolRecordStudent{
+    private String STUDENT_NAME;
+    public SchoolRecordStudent(String studentName) {
+        this.STUDENT_NAME = studentName;
+    }
     public String getSTUDENT_NAME() {
         return STUDENT_NAME;
     }
-
-    public void setSTUDENT_NAME(String student_name) {
-        this.STUDENT_NAME = student_name;
+    public void setSTUDENT_NAME(String STUDENT_NAME) {
+        this.STUDENT_NAME = STUDENT_NAME;
     }
-
+    @Override
+    public String toString() {
+        return "Student Name : "+STUDENT_NAME+"\n";
+    }
+}
+class SchoolRecordTeacher{
+    private String TEACHER_NAME;
+    public SchoolRecordTeacher(String teacherName) {
+        this.TEACHER_NAME = teacherName;
+    }
     public String getTEACHER_NAME() {
         return TEACHER_NAME;
     }
-
-    public void setTEACHER_NAME(String teacherName) {
-        this.TEACHER_NAME = teacherName;
+    public void setTEACHER_NAME(String CLASS_NAME) {
+        this.TEACHER_NAME = CLASS_NAME;
     }
-
     @Override
     public String toString() {
-        return "Class Name : "+CLASS_NAME+
-                "Teacher Name : "+ TEACHER_NAME+
-                "Student : "+ STUDENT_NAME;
-
+        return "Teacher Name : "+TEACHER_NAME+"\n";
     }
 }
-
 class  SchoolRecordList{
-
     Scanner scanner = new Scanner(System.in);
-    private AbstractList<String> schoolRecords;
-    public void setSchoolRecords(AbstractList<String> schoolRecords) {
-        this.schoolRecords = schoolRecords;
+    private final List<SchoolRecordCLASS> schoolRecordsDataBaseclass;
+    private final List<SchoolRecordStudent> schoolRecordsDataBaseStudent;
+    private final List<SchoolRecordTeacher> schoolRecordsDataBaseTeacher;
+    public SchoolRecordList(){
+        schoolRecordsDataBaseclass = new ArrayList<>();
+        schoolRecordsDataBaseStudent = new ArrayList<>();
+        schoolRecordsDataBaseTeacher = new ArrayList<>();
+    }
+    public void setSchoolRecords(SchoolRecordCLASS schoolRecordCLASS,SchoolRecordStudent schoolRecordStudent,SchoolRecordTeacher schoolRecordTeacher) {
+        schoolRecordsDataBaseclass.add(schoolRecordCLASS);
+        schoolRecordsDataBaseStudent.add(schoolRecordStudent);
+        schoolRecordsDataBaseTeacher.add(schoolRecordTeacher);
     }
 
 
     public void addClass(){
-        System.out.println("Enter The Class Name : ");
+        System.out.print("\nEnter The Class Name : ");
         String className = scanner.next();
-        SchoolRecord schoolRecord = new SchoolRecord(className);
-
-        schoolRecords.add(String.valueOf(schoolRecord));
-
-        System.out.println(schoolRecords);
-
+        SchoolRecordCLASS schoolRecordCLASS = new SchoolRecordCLASS(className);
+        schoolRecordsDataBaseclass.add(schoolRecordCLASS);
     }
 
     public void addStudent() {
-        System.out.println("Enter The Student Name : ");
+        System.out.print("\nEnter The Student Name : ");
         String studentName = scanner.next();
-        SchoolRecord schoolRecord = SchoolRecord(studentName);
+        SchoolRecordStudent schoolRecordStudent = new SchoolRecordStudent(studentName);
+        schoolRecordsDataBaseStudent.add(schoolRecordStudent);
     }
     public void addTeacher() {
-        System.out.println("Enter The Teacher Name : ");
+        System.out.print("\nEnter The Teacher Name : ");
         String teacherName = scanner.next();
-        SchoolRecord schoolRecord = new SchoolRecord(teacherName);
+        SchoolRecordTeacher schoolRecordTeacher = new SchoolRecordTeacher(teacherName);
+        schoolRecordsDataBaseTeacher.add(schoolRecordTeacher);
     }
     public void removeStudent() {
-        System.out.println("Enter The Student Name : ");
+        boolean isNotFound=true;
+        System.out.print("\nEnter The Student Name : ");
         String removeStudentName = scanner.next();
+        for (SchoolRecordStudent schoolRecordStudent : schoolRecordsDataBaseStudent){
+            if (schoolRecordStudent.getSTUDENT_NAME().equals(removeStudentName)){
+                schoolRecordsDataBaseStudent.remove(schoolRecordStudent);
+                System.out.println("The Student "+removeStudentName+" is Remove Successfully.\n");
+                removeStudentName=null;
+                isNotFound=false;
+                break;
+            }
+        }
+        if (isNotFound){
+            System.out.println(removeStudentName+" is not Found.\n");
+            removeStudentName=null;
+        }
     }
     public void removeTeacher() {
-        System.out.println("Enter The Teacher Name : ");
+        boolean isNotFound=true;
+        System.out.print("\nEnter The Teacher Name : ");
         String removeTeacherName = scanner.next();
+        for (SchoolRecordTeacher schoolRecordTeacher : schoolRecordsDataBaseTeacher){
+            if (schoolRecordTeacher.getTEACHER_NAME().equals(removeTeacherName)){
+                schoolRecordsDataBaseTeacher.remove(schoolRecordTeacher);
+                System.out.println("The Teacher "+removeTeacherName+" is Remove Successfully.\n");
+                removeTeacherName=null;
+                isNotFound=false;
+                break;
+            }
+        }
+        if (isNotFound){
+            System.out.println(removeTeacherName+" is not Found.\n");
+            removeTeacherName=null;
+        }
     }
 
+    public void displayDataBase(){
+        System.out.println(schoolRecordsDataBaseclass);
+        System.out.println(schoolRecordsDataBaseStudent);
+        System.out.println(schoolRecordsDataBaseTeacher);
+    }
 }
 
 public class School {
@@ -101,12 +147,14 @@ public class School {
         System.out.println("Welcome to School.  ");
 
         while (isExit) {
-            System.out.println("Enter '1' To create Class.");
+            System.out.println("\nEnter '1' To create Class.");
             System.out.println("Enter '2' To Add Student.");
             System.out.println("Enter '3' To Add Teacher.");
             System.out.println("Enter '4' To Remove Student.");
             System.out.println("Enter '5' To Remove Teacher.");
-            System.out.println("Enter '0' To Exit.");
+            System.out.println("Enter '6' To Display The All Data.");
+            System.out.println("Enter '0' To Exit.\n");
+            System.out.print("Enter The Input : ");
 
             int input = scanner.nextInt();
 
@@ -129,7 +177,11 @@ public class School {
                 case 5 :
                         schoolRecordList.removeTeacher();
                     break;
+                case 6 :
+                        schoolRecordList.displayDataBase();
+                    break;
                 default:
+                    System.out.println("\nEnter The Valid Input.");
                     break;
             }
 
